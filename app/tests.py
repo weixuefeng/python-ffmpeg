@@ -8,6 +8,7 @@ Description:
 '''
 from django.test import TestCase
 from .service import cut_change
+import crypt
 
 # Create your tests here.
 class TestFFmpeg(TestCase):
@@ -18,8 +19,12 @@ class TestFFmpeg(TestCase):
     def test_ffmpeg(self):
         base_path = "/Users/weixuefeng/source/github/ffmpegTest/app/asset"
         input_path = "{}/a.MP4".format(base_path)
+        output = "{}/a.png".format(base_path)
         password = "123456"
         ts_path = "{}/res".format(base_path)
-        cut_change(input_path, password, ts_path)
+        cut_change(input_path, password, ts_path, output)
         print(input_path)
+
+    def test_creatediff(self):
+        pass
 

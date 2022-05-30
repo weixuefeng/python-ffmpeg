@@ -15,7 +15,7 @@ from ffmpy import FFmpeg
 logger = logging.getLogger(__name__)
 
 
-def cut_change(video_path, password, base_path):
+def cut_change(video_path, password, base_path, output_path):
     """
     操作ffmpeg执行： ffmpeg -i a.MP4 -codec: copy -bsf:v h264_mp4toannexb -start_number 0 -hls_time 10 -hls_list_size 0 -f hls -hls_enc_key 123456 big/outpub.m3u8
     :param video_path: 处理输入流视频
@@ -25,7 +25,9 @@ def cut_change(video_path, password, base_path):
     :param fps_r: 对视频帧截取速度
     """
     ff = FFmpeg(inputs={video_path: None},
-                outputs={None: '-c copy -bsf:v h264_mp4toannexb -start_number 0 -hls_time 10 -hls_list_size 0 -f hls -hls_enc_key {0} {1}/output.m3u8'.format(
+                outputs={
+                    output_path: '-y -f mjpeg -ss 0 -t 0.001',
+                    None: '-c copy -bsf:v h264_mp4toannexb -start_number 0 -hls_time 10 -hls_list_size 0 -f hls -hls_enc_key {0} {1}/output.m3u8'.format(
                               password, base_path),
                          })
     print(ff.cmd)
